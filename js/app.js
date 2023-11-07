@@ -58,13 +58,10 @@ condition.allDucks[duck3].views++;
 
 
 function renderResultsButton() {
-  console.log("button being called");
   const button = document.querySelector('.showResults');
   if (button) {
     button.style.display = "block";
-  } else {
-    console.log("Button not found.");
-  }
+  } 
 }
 
 function renderResults() {
@@ -80,6 +77,7 @@ function renderResults() {
 
 
 function handleClick(event) {
+  console.log('Click event received'); 
   let duckName = event.target.alt;
 
   for (let i = 0; i < condition.allDucks.length; i++) {
@@ -91,18 +89,11 @@ function handleClick(event) {
 
   condition.currentClicks++;
 
+  console.log("Current Clicks:", condition.currentClicks); 
+
   if (condition.currentClicks >= condition.clicksAllowed) {
     removeListener();
     renderResultsButton();
-    
-    
-    if (condition.currentClicks >= 25) {
-      const resultsList = document.getElementById("resultsList");
-      const showResultsButton = document.querySelector('.showResults');
-      
-      resultsList.style.display = "block"; 
-      showResultsButton.style.display = "block"; 
-    }
   } else {
     duckRender();
   }
@@ -113,8 +104,8 @@ function setupListeners() {
     duckContainer[i].addEventListener("click", handleClick);
   }
 
-  for (let i = 0; i < button.length; i++) {
-    button[i].addEventListener("click", renderResults);
+  if (button.length > 0) {
+    button[0].addEventListener("click", renderResults);
   }
 }
 
