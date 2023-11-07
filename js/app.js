@@ -1,11 +1,12 @@
-const duckContainer = document.getElementById("ducks");
-const resultContainer = document.getElementById("results");
+const duckContainer = document.getElementsByClassName("ducks");
+const resultContainer = document.getElementsByClassName("results");
 
-const image1 = document.querySelector('#ducks img:first-child');
-const image2 = document.querySelector('#ducks img:nth-child(2)');
-const image3 = document.querySelector('#ducks img:nth-child(3)');
 
-const button = document.getElementById("showResults");
+const image1 = document.querySelector('.ducks img:first-child');
+const image2 = document.querySelector('.ducks img:nth-child(2)');
+const image3 = document.querySelector('.ducks img:nth-child(3)');
+
+const button = document.getElementsByClassName("showResults");
 
 
 let condition = {
@@ -56,49 +57,71 @@ condition.allDucks[duck3].views++;
 }
 
 
-function renderResultsButton () {
+function renderResultsButton() {
+  console.log("button being called");
+  const button = document.querySelector('.showResults');
+  if (button) {
     button.style.display = "block";
+  } else {
+    console.log("Button not found.");
+  }
 }
 
 function renderResults() {
+  const resultsList = document.getElementById("resultsList");
+  resultsList.innerHTML = ""; 
+
   for (let i = 0; i < condition.allDucks.length; i++) {
     const duck = condition.allDucks[i];
-    console.log(`${duck.name}: Views - ${duck.views}, Votes - ${duck.votes}`);
+    const resultText = `${duck.name}: Views - ${duck.views}, Votes - ${duck.votes}`;
+    resultsList.innerHTML += `<p>${resultText}</p>`;
   }
 }
 
 
 function handleClick(event) {
- 
-    let duckName = event.target.alt;
+  let duckName = event.target.alt;
 
-    for ( let i = 0; i < condition.allDucks.length; i++ ) {
-    if( duckName === condition.allDucks[i].name ) {
-    condition.allDucks[i].votes++;
-    break;
+  for (let i = 0; i < condition.allDucks.length; i++) {
+    if (duckName === condition.allDucks[i].name) {
+      condition.allDucks[i].votes++;
+      break;
+    }
   }
- }
 
- condition.currentClicks++;
+  condition.currentClicks++;
 
- if(condition.currentClicks >= condition. clicksAllowed) {
-  
-  removeListener();
-  renderResultsButton();
- } else {
-   duckRender();
- }
-
+  if (condition.currentClicks >= condition.clicksAllowed) {
+    removeListener();
+    renderResultsButton();
+    
+    
+    if (condition.currentClicks >= 25) {
+      const resultsList = document.getElementById("resultsList");
+      const showResultsButton = document.querySelector('.showResults');
+      
+      resultsList.style.display = "block"; 
+      showResultsButton.style.display = "block"; 
+    }
+  } else {
+    duckRender();
+  }
 }
 
 function setupListeners() {
-  
- duckContainer.addEventListener("click", handleClick);
- button.addEventListener("click", renderResults)
+  for (let i = 0; i < duckContainer.length; i++) {
+    duckContainer[i].addEventListener("click", handleClick);
+  }
+
+  for (let i = 0; i < button.length; i++) {
+    button[i].addEventListener("click", renderResults);
+  }
 }
 
 function removeListener() {
- duckContainer.removeEventListener("click", handleClick);
+  for (let i = 0; i < duckContainer.length; i++) {
+    duckContainer[i].removeEventListener("click", handleClick);
+  }
 }
 
 
@@ -125,4 +148,5 @@ new Duck('wine-glass','images/wine-glass.jpg');
 
 duckRender();
 setupListeners();
+renderResultsButton();
 renderResults();
