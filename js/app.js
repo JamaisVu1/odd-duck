@@ -13,6 +13,12 @@ let condition = {
   allDucks: [],
 };
 
+// let allDucksJSON = localStorage.getItem("allDucks");
+//     console.log(allDucksJSON);
+// if (allDucksJSON) {
+//   condition.allDucks = JSON.parse(allDucksJSON);
+// }
+
 function Duck(name, image) {
   this.name = name;
   this.imageFile = image;
@@ -87,7 +93,7 @@ function renderResults() {
   let duckViews = [];
 
   for (let i = 0; i < condition.allDucks.length; i++) {
-    console.log(condition.allDucks[i].votes);
+    // console.log(condition.allDucks[i].votes);
     duckName.push(condition.allDucks[i].name);
     duckVotes.push(condition.allDucks[i].votes);
     duckViews.push(condition.allDucks[i].views);
@@ -116,6 +122,9 @@ function renderResults() {
 }
 
 function handleClick(event) {
+
+    // localStorage.setItem("allDucks", JSON.stringify(condition.allDucks));
+
   // console.log("handle click called");
   let duckName = event.target.alt;
   // console.log(duckName);
@@ -125,17 +134,18 @@ function handleClick(event) {
       // console.log("vote counter",condition.allDucks[i].votes);
       condition.currentClicks++;
 
-      // console.log(condition.currentClicks);
+      console.log(condition.currentClicks);
       if (condition.currentClicks >= condition.clicksAllowed) {
         document.querySelector(".results").style.display = "block";
       }
     }
   }
 
+
+
   if (condition.currentClicks >= condition.clicksAllowed) {
     removeListener();
     renderResultsButton();
-    
   } else {
     duckRender();
   }
@@ -152,6 +162,8 @@ function removeListener() {
     duckContainer[i].removeEventListener("click", handleClick);
   }
 }
+
+console.log(condition.allDucks);
 
 const showResultsButton = document.querySelector(".showResults");
 showResultsButton.addEventListener("click", function () {
@@ -184,7 +196,7 @@ new Duck("unicorn", "images/unicorn.jpg");
 new Duck("water-can", "images/water-can.jpg");
 new Duck("wine-glass", "images/wine-glass.jpg");
 
+// check if local storage exists || if it does not create new instance of local storage || if not use local storage thats already there.
+// if im getting local storage, convert local storage back to object and reapply . get local storage, parase, and set to allDucks
+
 duckRender();
-
-
-
