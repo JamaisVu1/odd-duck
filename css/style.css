@@ -24,6 +24,7 @@
 
 
 .ducks {
+  display: inline;
   grid-area: ducks;
 }
 
