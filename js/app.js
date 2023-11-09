@@ -7,8 +7,6 @@ const image3 = document.querySelector(".ducks img:nth-child(3)");
 
 const button = document.getElementsByClassName("showResults");
 
-button[0].style.display = "none";
-
 let condition = {
   currentClicks: 0,
   clicksAllowed: 25,
@@ -32,7 +30,7 @@ function uniqueImageChecker() {
   let imageArray = [];
   while (imageArray.length < 3) {
     let randomIdx = pickRandom();
-    console.log(randomIdx);
+    // console.log(randomIdx);
     if (
       !imageArray.includes(randomIdx) &&
       !previousImages.includes(randomIdx)
@@ -51,23 +49,7 @@ function duckRender() {
   let duck2 = uniqueDucks3[1];
   let duck3 = uniqueDucks3[2];
 
-  console.log(duck1, duck2, duck3);
-
-  // while (
-  //   duck1 === duck2 ||
-  //   duck2 === duck3 ||
-  //   duck3 === duck1 ||
-  //   previousImages.includes(duck1) ||
-  //   previousImages.includes(duck2) ||
-  //   previousImages.includes(duck3)
-  // ) {
-  //   duck1 = pickRandom();
-  //   duck2 = pickRandom();
-  //   duck3 = pickRandom();
-  //   previousImages.push(duck1, duck2, duck3);
-  // }
-
-  //while loop so long as previous is less than 6, no current image, if there are images in prvious away otherwise push to pickrandom
+  // console.log(duck1, duck2, duck3);
 
   image1.src = condition.allDucks[duck1].imageFile;
   image1.alt = condition.allDucks[duck1].name;
@@ -75,7 +57,7 @@ function duckRender() {
   image2.src = condition.allDucks[duck2].imageFile;
   image2.alt = condition.allDucks[duck2].name;
 
-  console.log(condition.allDucks[duck3]);
+  // console.log(condition.allDucks[duck3]);
 
   image3.src = condition.allDucks[duck3].imageFile;
   image3.alt = condition.allDucks[duck3].name;
@@ -83,6 +65,8 @@ function duckRender() {
   condition.allDucks[duck1].views++;
   condition.allDucks[duck2].views++;
   condition.allDucks[duck3].views++;
+
+  setupListeners();
 }
 
 function renderResultsButton() {
@@ -90,18 +74,26 @@ function renderResultsButton() {
   if (button) {
     button.style.display = "block";
   }
+  const chartContainer = document.querySelector("#report");
+  if (chartContainer) {
+    chartContainer.style.display = "none";
+  }
 }
 
 function renderResults() {
+  console.log(condition);
   let duckName = [];
   let duckVotes = [];
   let duckViews = [];
 
   for (let i = 0; i < condition.allDucks.length; i++) {
+    console.log(condition.allDucks[i].votes);
     duckName.push(condition.allDucks[i].name);
     duckVotes.push(condition.allDucks[i].votes);
     duckViews.push(condition.allDucks[i].views);
   }
+  // console.log(duckVotes);
+  // console.log(duckViews);
 
   const data = {
     labels: duckName,
@@ -120,30 +112,30 @@ function renderResults() {
       },
     },
   };
-
   const duckChart = new Chart("report", config);
 }
 
 function handleClick(event) {
+  // console.log("handle click called");
   let duckName = event.target.alt;
-
+  // console.log(duckName);
   for (let i = 0; i < condition.allDucks.length; i++) {
     if (duckName === condition.allDucks[i].name) {
       condition.allDucks[i].votes++;
-
+      // console.log("vote counter",condition.allDucks[i].votes);
       condition.currentClicks++;
 
+      // console.log(condition.currentClicks);
       if (condition.currentClicks >= condition.clicksAllowed) {
         document.querySelector(".results").style.display = "block";
       }
     }
   }
 
-  condition.currentClicks++;
-
   if (condition.currentClicks >= condition.clicksAllowed) {
     removeListener();
     renderResultsButton();
+    
   } else {
     duckRender();
   }
@@ -153,10 +145,6 @@ function setupListeners() {
   for (let i = 0; i < duckContainer.length; i++) {
     duckContainer[i].addEventListener("click", handleClick);
   }
-
-  if (button.length > 0) {
-    button[0].addEventListener("click", renderResults);
-  }
 }
 
 function removeListener() {
@@ -165,10 +153,15 @@ function removeListener() {
   }
 }
 
-
 const showResultsButton = document.querySelector(".showResults");
 showResultsButton.addEventListener("click", function () {
-  resultContainer[0].style.display = resultContainer[0].style.display === "none" ? "block" : "none";
+  renderResults();
+  const chartContainer = document.querySelector("#report");
+  if (chartContainer) {
+    chartContainer.style.display =
+      chartContainer.style.display === "none" ? "block" : "none";
+  }
+  showResultsButton.style.display = "none";
 });
 
 new Duck("bag", "images/bag.jpg");
@@ -192,6 +185,6 @@ new Duck("water-can", "images/water-can.jpg");
 new Duck("wine-glass", "images/wine-glass.jpg");
 
 duckRender();
-setupListeners();
-renderResultsButton();
-renderResults();
+
+
+
