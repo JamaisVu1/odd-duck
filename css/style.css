@@ -1,41 +1,41 @@
 .container {
-  display: grid; 
-  grid-auto-columns: 1fr; 
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; 
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; 
-  gap: 0px 0px; 
-  grid-template-areas: 
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
     "header header header header header header"
-    "paragraph paragraph ducks ducks ducks ducks"
-    "paragraph paragraph ducks ducks ducks ducks"
+    "paragraph paragraph paragraph paragraph paragraph paragraph"
+    "ducks ducks ducks ducks ducks ducks "
     "results results results results results results"
     "results results results results results results"
-    "footer footer footer footer footer footer"; 
+    "footer footer footer footer footer footer";
 }
 
-
 .container {
-  background-color: rgb(147, 212, 157);
+  background-color: #EF9A48;
   margin: 0;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   padding: 0;
 }
 
-
-
 .ducks {
-  display: inline;
-  grid-area: ducks;
+  display: flex;
 }
 
+
 .ducks img {
-  display: inline;
-  height: 200px;
-  width: 50%;
+  border: solid black 5px;
+  height: 200px; 
+  width: auto; 
+  margin-right: 10px;
+  max-width: 100%;
+  height: auto;
+   box-shadow: 4px 4px 83px rgba(0, 0, 0, 0.1);
 }
 
 .results {
-  
   grid-area: results;
 }
 
@@ -43,9 +43,19 @@
   grid-area: paragraph;
 }
 
+.paragraph p {
+  font-size: 30PX;
+  color: #5F3822;
+}
+
 .footer {
-  background-image: linear-gradient(to bottom, rgb(147, 212, 157), rgb(94, 199, 94));
+  background-image: linear-gradient(
+    to top,
+    #481620,
+    #EF9A48
+  );
   grid-area: footer;
+  height: 80px;
   position: fixed;
   padding: 10px;
   bottom: 0;
@@ -53,10 +63,26 @@
 }
 
 .header {
-    background-image: linear-gradient(to top, rgb(147, 212, 157), rgb(34, 176, 34));
+  display: flex;
+  justify-content: center;
+  font-family: righteous;
+  background-image: linear-gradient(
+    to bottom,
+    #481620,
+    #EF9A48
+    
+  );
   grid-area: header;
+  font-size: 100px;
   padding: 10px;
 }
+
+.header h1 {
+  color: #6C3F18;
+  padding-top: 30px;
+  margin-top: 0;
+}
+
 
 .showResults {
   width: 150px;
