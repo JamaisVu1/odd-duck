@@ -13,11 +13,33 @@ let condition = {
   allDucks: [],
 };
 
-// let allDucksJSON = localStorage.getItem("allDucks");
-//     console.log(allDucksJSON);
-// if (allDucksJSON) {
-//   condition.allDucks = JSON.parse(allDucksJSON);
-// }
+// console.log(allDucks);
+
+let allDucksJSON = localStorage.getItem("allDucks");
+// console.log(allDucksJSON);
+if (allDucksJSON) {
+  condition.allDucks = JSON.parse(allDucksJSON);
+} else {
+  new Duck("bag", "images/bag.jpg");
+  new Duck("banana", "images/banana.jpg");
+  new Duck("bathroom", "images/bathroom.jpg");
+  new Duck("boots", "images/boots.jpg");
+  new Duck("breakfast", "images/breakfast.jpg");
+  new Duck("bubblegum", "images/bubblegum.jpg");
+  new Duck("chair", "images/chair.jpg");
+  new Duck("cthulhu", "images/cthulhu.jpg");
+  new Duck("dog-duck", "images/dog-duck.jpg");
+  new Duck("dragon", "images/dragon.jpg");
+  new Duck("pen", "images/pen.jpg");
+  new Duck("pet-sweep", "images/pet-sweep.jpg");
+  new Duck("scissors", "images/scissors.jpg");
+  new Duck("shark", "images/shark.jpg");
+  new Duck("sweep", "images/sweep.png");
+  new Duck("tauntaun", "images/tauntaun.jpg");
+  new Duck("unicorn", "images/unicorn.jpg");
+  new Duck("water-can", "images/water-can.jpg");
+  new Duck("wine-glass", "images/wine-glass.jpg");
+}
 
 function Duck(name, image) {
   this.name = name;
@@ -104,8 +126,18 @@ function renderResults() {
   const data = {
     labels: duckName,
     datasets: [
-      { label: "Votes", data: duckVotes },
-      { label: "Views", data: duckViews },
+      {
+        label: "Votes",
+        data: duckVotes,
+        borderWidth: 1,
+        backgroundColor: ["pink"],
+      },
+      {
+        label: "Views",
+        data: duckViews,
+        borderWidth: 1,
+        backgroundColor: ["red"],
+      },
     ],
   };
 
@@ -122,16 +154,16 @@ function renderResults() {
 }
 
 function handleClick(event) {
-
-    // localStorage.setItem("allDucks", JSON.stringify(condition.allDucks));
-
   // console.log("handle click called");
+
   let duckName = event.target.alt;
   // console.log(duckName);
   for (let i = 0; i < condition.allDucks.length; i++) {
     if (duckName === condition.allDucks[i].name) {
       condition.allDucks[i].votes++;
+
       // console.log("vote counter",condition.allDucks[i].votes);
+
       condition.currentClicks++;
 
       console.log(condition.currentClicks);
@@ -140,8 +172,6 @@ function handleClick(event) {
       }
     }
   }
-
-
 
   if (condition.currentClicks >= condition.clicksAllowed) {
     removeListener();
@@ -152,6 +182,7 @@ function handleClick(event) {
 }
 
 function setupListeners() {
+  console.log(duckContainer.length, "length of duck container");
   for (let i = 0; i < duckContainer.length; i++) {
     duckContainer[i].addEventListener("click", handleClick);
   }
@@ -174,29 +205,7 @@ showResultsButton.addEventListener("click", function () {
       chartContainer.style.display === "none" ? "block" : "none";
   }
   showResultsButton.style.display = "none";
+  localStorage.setItem("allDucks", JSON.stringify(condition.allDucks));
 });
-
-new Duck("bag", "images/bag.jpg");
-new Duck("banana", "images/banana.jpg");
-new Duck("bathroom", "images/bathroom.jpg");
-new Duck("boots", "images/boots.jpg");
-new Duck("breakfast", "images/breakfast.jpg");
-new Duck("bubblegum", "images/bubblegum.jpg");
-new Duck("chair", "images/chair.jpg");
-new Duck("cthulhu", "images/cthulhu.jpg");
-new Duck("dog-duck", "images/dog-duck.jpg");
-new Duck("dragon", "images/dragon.jpg");
-new Duck("pen", "images/pen.jpg");
-new Duck("pet-sweep", "images/pet-sweep.jpg");
-new Duck("scissors", "images/scissors.jpg");
-new Duck("shark", "images/shark.jpg");
-new Duck("sweep", "images/sweep.png");
-new Duck("tauntaun", "images/tauntaun.jpg");
-new Duck("unicorn", "images/unicorn.jpg");
-new Duck("water-can", "images/water-can.jpg");
-new Duck("wine-glass", "images/wine-glass.jpg");
-
-// check if local storage exists || if it does not create new instance of local storage || if not use local storage thats already there.
-// if im getting local storage, convert local storage back to object and reapply . get local storage, parase, and set to allDucks
 
 duckRender();
